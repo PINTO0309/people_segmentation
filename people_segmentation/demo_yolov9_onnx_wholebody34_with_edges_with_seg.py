@@ -558,6 +558,7 @@ class YOLOv9(AbstractModel):
                     result_boxes = [box for box in result_boxes if box.classid != target_classid]
                     result_boxes = result_boxes + filtered_keypoints_boxes
 
+        # セグメンテーションマスクの合成
         mask = np.zeros((image_height, image_width), dtype=np.uint8)
         mask[segment[0][0] > 0] = 255
         mask_colored = np.zeros_like(image)
