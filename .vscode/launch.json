@@ -1,0 +1,24 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "demo",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "cwd": "${fileDirname}",
+            "args": [
+                "-m", "yolov9_e_wholebody34_with_seg_post_0100_1x3x480x640.onnx",
+                "-v", "0",
+                "-ep", "tensorrt",
+                "-kst", "0.25",
+                "-dnm",
+                "-dgm",
+                "-dlr",
+                "-dhm",
+            ],
+        }
+    ]
+}

@@ -131,3 +131,7 @@ dmypy.json
 .idea/
 
 *.pth
+*.onnx
+*.engine
+*.profile
+*.mp4
