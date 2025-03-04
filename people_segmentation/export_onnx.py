@@ -120,7 +120,7 @@ def main():
         model,
         args=(x),
         f=onnx_file,
-        opset_version=11,
+        opset_version=13,
         input_names=['input'],
         output_names=['segment'],
         dynamic_axes={
