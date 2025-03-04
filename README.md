@@ -1,3 +1,9 @@
+# PINTO_custom - One shot YOLOv9/Object Detection + Multi-Person Pose Estimation + Multi-Person Segmentation 
+
+![image](https://github.com/user-attachments/assets/57ed2493-2933-4f73-8437-076bf9bd7425)
+
+https://github.com/user-attachments/assets/47913f83-ff23-4b87-bb78-2ce1ad3241b1
+
 # Binary segmentation of people
 
 ![](https://habrastorage.org/webt/bc/eg/g8/bcegg8zdgd-co-lip6hxn976jdm.jpeg)
