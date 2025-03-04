@@ -1,4 +1,4 @@
-# PINTO_custom - One shot YOLOv9/object detection + pose estimation + segmentation 
+# PINTO_custom - One shot YOLOv9/One shot Object Detection + Multi-Person Pose Estimation + Multi-Person Segmentation 
 
 https://github.com/user-attachments/assets/47913f83-ff23-4b87-bb78-2ce1ad3241b1
 
