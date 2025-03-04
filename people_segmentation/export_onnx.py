@@ -40,40 +40,40 @@ def main():
     pre_post_model = Pre_post_model(model)
 
     RESOLUTION = [
-        # [192,320],
-        # [192,416],
-        # [192,640],
-        # [192,800],
-        # [256,320],
-        # [256,416],
-        # [256,448],
-        # [256,640],
-        # [256,800],
-        # [256,960],
-        # [288,480],
-        # [288,640],
-        # [288,800],
-        # [288,960],
-        # [288,1280],
-        # [320,320],
-        # [384,480],
-        # [384,640],
-        # [384,800],
-        # [384,960],
-        # [384,1280],
-        # [416,416],
+        [192,320],
+        [192,416],
+        [192,640],
+        [192,800],
+        [256,320],
+        [256,416],
+        [256,448],
+        [256,640],
+        [256,800],
+        [256,960],
+        [288,480],
+        [288,640],
+        [288,800],
+        [288,960],
+        [288,1280],
+        [320,320],
+        [384,480],
+        [384,640],
+        [384,800],
+        [384,960],
+        [384,1280],
+        [416,416],
         [480,640],
-        # [480,800],
-        # [480,960],
-        # [480,1280],
-        # [512,512],
-        # [512,640],
-        # [512,896],
-        # [544,800],
-        # [544,960],
-        # [544,1280],
-        # [640,640],
-        # [736,1280],
+        [480,800],
+        [480,960],
+        [480,1280],
+        [512,512],
+        [512,640],
+        [512,896],
+        [544,800],
+        [544,960],
+        [544,1280],
+        [640,640],
+        [736,1280],
     ]
 
     for H, W in RESOLUTION:
@@ -103,16 +103,41 @@ def main():
             search_mode="prefix_match",
         )
 
-        combined_graph = combine(
-            srcop_destop = [
-                ['output_prep', 'input_rgb']
-            ],
-            input_onnx_file_paths = [
-                f'yolov9_e_wholebody34_post_0100_1x3x{H}x{W}.onnx',
-                f'peopleseg_1x3x{H}x{W}.onnx',
-            ],
-            output_onnx_file_path = f'yolov9_e_wholebody34_with_seg_post_0100_1x3x{H}x{W}.onnx',
-        )
+        # combined_graph = combine(
+        #     srcop_destop = [
+        #         ['output_prep', 'input_rgb']
+        #     ],
+        #     input_onnx_file_paths = [
+        #         f'yolov9_e_wholebody34_post_0100_1x3x{H}x{W}.onnx',
+        #         f'peopleseg_1x3x{H}x{W}.onnx',
+        #     ],
+        #     output_onnx_file_path = f'yolov9_e_wholebody34_with_seg_post_0100_1x3x{H}x{W}.onnx',
+        # )
+
+    onnx_file = f"peopleseg_Nx3xHxW.onnx"
+    x = torch.randn(1, 3, 192, 320).cpu()
+    torch.onnx.export(
+        model,
+        args=(x),
+        f=onnx_file,
+        opset_version=11,
+        input_names=['input'],
+        output_names=['segment'],
+        dynamic_axes={
+            'input_rgb' : {0: 'N', 2: 'height', 3: 'width'},
+            'segment' : {0: 'N', 2: 'height', 3: 'width'},
+        }
+    )
+    model_onnx1 = onnx.load(onnx_file)
+    model_onnx1 = onnx.shape_inference.infer_shapes(model_onnx1)
+    onnx.save(model_onnx1, onnx_file)
+    onnx_graph = rename(
+        old_new=["/", "seg/"],
+        input_onnx_file_path=onnx_file,
+        output_onnx_file_path=onnx_file,
+        mode="full",
+        search_mode="prefix_match",
+    )
 
 if __name__ == "__main__":
     main()
