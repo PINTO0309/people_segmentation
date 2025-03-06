@@ -560,7 +560,8 @@ class YOLOv9(AbstractModel):
 
         # セグメンテーションマスクの合成
         mask = np.zeros((image_height, image_width), dtype=np.uint8)
-        mask[segment[0][0] > 0] = 255
+        resized_segment = cv2.resize(segment[0, 0], (image_width, image_height))
+        mask[resized_segment > 0] = 255
         mask_colored = np.zeros_like(image)
         mask_colored[:, :, 1] = mask  # 緑成分にマスクを割り当て
         overlay = cv2.addWeighted(image, 0.7, mask_colored, 0.3, 0) # 重畳（透過率0.3）
